@@ -8,15 +8,15 @@
 	"log_error":true,
 	"log_debug":false,
 
-	"sslcrt":"/usr/local/lk/www/certificate/server.crt",
-	"sslkey":"/usr/local/lk/www/certificate/server.key",
+	"sslcrt":"/usr/local/kperf/www/certificate/server.crt",
+	"sslkey":"/usr/local/kperf/www/certificate/server.key",
 
 	"http":{
 		"access_log":true,
 		"keepalive":false,
 		"http_listen":[80],
 		"https_listen":[443],
-		"home":"/usr/local/lk/www",
+		"home":"/usr/local/kperf/www",
 		"index":"index.html"
 	},
 	"perf":{

@@ -14,7 +14,7 @@ static serv_api_t api_arr_web[] = {
 	{ string("/perform_start"),			api_perform_start },
 	{ string("/perform_stop"),			api_perform_stop },
 	{ string("/proxy"),					api_proxy },
-	{ string_null,						NULL			}
+	{ string_null,						NULL }
 };
 // api_proxy ---------------
 status api_proxy( void * data )

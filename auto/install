@@ -1,12 +1,12 @@
 cat << END >> $L_MAKEFILE
 
 install:
-	test -d /usr/local/lk || mkdir -p /usr/local/lk
-	test -d /usr/local/lk/config || cp -rf config /usr/local/lk/config
-	test -d /usr/local/lk/log || mkdir -p /usr/local/lk/logs
-	test -d /usr/local/lk/www || cp -rf www /usr/local/lk
-	test -d /usr/local/lk/sbin || mkdir -p /usr/local/lk/sbin
-	cp objs/lk /usr/local/lk/sbin/
+	test -d /usr/local/kperf || mkdir -p /usr/local/kperf
+	test -d /usr/local/kperf/config || cp -rf config /usr/local/kperf/config
+	test -d /usr/local/kperf/log || mkdir -p /usr/local/kperf/logs
+	test -d /usr/local/kperf/www || cp -rf www /usr/local/kperf
+	test -d /usr/local/kperf/sbin || mkdir -p /usr/local/kperf/sbin
+	cp objs/kperf /usr/local/kperf/sbin/
 END
 
 cat << END >> Makefile

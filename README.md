@@ -8,16 +8,16 @@ perf_tool是一个数据可视化的web应用性能工具。</br>
 依赖OpenSSL库。解决依赖后。在文件目录运行：
 * configure </br>
 * make && make install </br>
-安装完成后，在/usr/local/lk目录可看到安装完成后的文件。
-运行/usr/local/lk/sbin目录下的elf文件即可使用，但是使用之前可能需要了解配置。
-> * /usr/local/lk/conf - 配置文件所在目录
-> * /usr/local/lk/logs - pid，日志，缓冲文件所在目录
-> * /usr/local/lk/sbin - elf执行文件所在目录
-> * /usr/local/lk/www  - HTML资源目录
+安装完成后，在/usr/local/kperf目录可看到安装完成后的文件。
+运行/usr/local/kperf/sbin目录下的elf文件即可使用，但是使用之前可能需要了解配置。
+> * /usr/local/kperf/conf - 配置文件所在目录
+> * /usr/local/kperf/logs - pid，日志，缓冲文件所在目录
+> * /usr/local/kperf/sbin - elf执行文件所在目录
+> * /usr/local/kperf/www  - HTML资源目录
 
 # Command line parameters
 * -stop </br>
-作用是停止后台所有lk进程。</br>
+作用是停止后台所有kperf进程。</br>
 stop all process when works in the backend
 * -reload </br>
 作用是重新启动子进程 </br>
@@ -35,15 +35,15 @@ reload all worker process
 	"log_error":true,
 	"log_debug":false,
 
-	"sslcrt":"/usr/local/lk/www/certificate/server.crt",
-	"sslkey":"/usr/local/lk/www/certificate/server.key",
+	"sslcrt":"/usr/local/kperf/www/certificate/server.crt",
+	"sskperfey":"/usr/local/kperf/www/certificate/server.key",
 
 	"http":{
 		"access_log":true,
 		"keepalive":false,
 		"http_listen":[80],
 		"https_listen":[443],
-		"home":"/usr/local/lk/www",
+		"home":"/usr/local/kperf/www",
 		"index":"index.html"
 	},
 	"perf":{
@@ -60,7 +60,7 @@ reload all worker process
 > * log_error - error日志开关。
 > * log_debug - debug日志开关。（影响性能）
 > * sslcrt - SSL证书&公钥。
-> * sslkey - SSL私钥。
+> * sskperfey - SSL私钥。
 * http 块，设置一些关于http的信息。
 > * access_log - http模块access日志
 > * keepalive - http长连接支持开关。
@@ -73,29 +73,28 @@ reload all worker process
 
 # Tips
 * 通过 /perform.html进入web应用性能测试的UI页面。
-* tunnel模块使用的端口为7324，7325。client/proxy使用7325。server使用7324。暂不能通过配置修改。
 # Benchmark
-## lk-perf VS apachebench
+## kperf-perf VS apachebench
 宿主 cpu为 3.8Ghz, 内存ddr4-2400，网络为千兆以太</br>
 均为http，connection close短连接。
 ### 单核心
-> * lk-perf 虚拟机 1核心，1gb内存
+> * kperf-perf 虚拟机 1核心，1gb内存
 > * ab 虚拟机 1核心，1gb内存
 > * 被测机- nginx 1.14，虚拟机 1核心，1gb内存，1进程。
 
 |    object  |   进程 | 并发设置 | 时间     |  test1    |  test2   |   test3     |  cpu      |
 |------------|--------|----------|-----------|-----------|---------|-------------|-----------|
-|    lk perf |   1    | 30       |   10s     |70679      |70637    |70580        |   99      |
+|    kperf perf |   1    | 30       |   10s     |70679      |70637    |70580        |   99      |
 |    ab      |   /    |  1000    |   10s     |72251      |71711    |72433        |   99      |
 
 ### 双核心
-> * lk perf 虚拟机 2核心，1gb内存
+> * kperf perf 虚拟机 2核心，1gb内存
 > * ab虚拟机 2核心，1gb内存
 > * 被测试的nginx-1.14，虚拟机 2核心，1gb内存，2进程。
 
 |    object   |   进程  | 并发设置 | 时间      |  test1   |test2     |   test3  |  cpu     |
 |-------------|---------|----------|-----------|----------|----------|----------|----------|
-|    lk perf  |   2     | 30       |   10s     |194177   |195576     |195954    |  97-96   |
+|    kperf perf  |   2     | 30       |   10s     |194177   |195576     |195954    |  97-96   |
 |    ab       |   /     |  3000    |   10s     |181247   |161376     |170303    |   100    |
 > *  ab 的test2，test3出现了failed的情况。数量在400左右。
 > *  双核心数据和单核心的数据比起来，并不是与单核心的数据x2差不多，而是多了不少。这有点不合逻辑，我不知道为什么。也许是因为虚拟机的关系双核心的情况下占用了比预期更多宿主资源导致的。不过这里想说明的是，对比保持了环境的一致性。数据一定程度上总能体现不同对象在同样环境下的差异。

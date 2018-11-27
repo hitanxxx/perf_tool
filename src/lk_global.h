@@ -40,12 +40,12 @@
 #include <netinet/tcp.h>
 #include <sys/sendfile.h>
 //
-#define 	L_PATH_PIDFILE			"/usr/local/lk/logs/pid"
-#define 	L_PATH_CONFIG			"/usr/local/lk/config/config.json"
-#define 	L_PATH_PERFTEMP			"/usr/local/lk/logs/l_perf"
-#define 	L_PATH_LOG_MAIN			"/usr/local/lk/logs/l_log"
-#define 	L_PATH_LOG_ACCESS		"/usr/local/lk/logs/l_access"
-#define 	L_PATH_UOLOAD_FILE		"/usr/local/lk/logs/l_upload_temp"
+#define 	L_PATH_PIDFILE			"/usr/local/kperf/logs/pid"
+#define 	L_PATH_CONFIG			"/usr/local/kperf/config/config.json"
+#define 	L_PATH_PERFTEMP			"/usr/local/kperf/logs/l_perf"
+#define 	L_PATH_LOG_MAIN			"/usr/local/kperf/logs/l_log"
+#define 	L_PATH_LOG_ACCESS		"/usr/local/kperf/logs/l_access"
+#define 	L_PATH_UOLOAD_FILE		"/usr/local/kperf/logs/l_upload_temp"
 
 #define 	HTTP_METHOD_GET		0x000a
 #define		HTTP_METHOD_HEAD	0x000b
