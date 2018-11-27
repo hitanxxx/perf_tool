@@ -1,25 +1,13 @@
-# LK
-
-# Introduce
-LK 是ANSI C的一个web框架。除OpenSSL，未使用任意第三方库，事件通知使用linux下的epoll，目前只能在linux下使用。定时器采用数组最小堆。包含3个功能模块：
-## LK-PERF
-lk-perf 固定数量进程（非大量fork），事件驱动， 无锁，数据可视化的高性能，web应用性能测试模块。</br>
-UI用echarts js实现初略的数据可视化。通过UI可以方便的设置测试用例，通过图表直观的进行数据对比。
-## LK-TUNNEL
-lk-tunnel SSL tunnel(翻墙模式)/http|https proxy。</br>
-双向SSL加密。安全性高。信息只能在ip层面进行跟踪。应用流量只能阻隔，无法篡改，跟踪。</br>
-性能高，占用资源极少。适合各种低性能的硬件环境。</br>
-跑在1G DDR2 ram的树莓派上，看一个720p的视频，cpu与内存的使用率维持在2%。
-## LK-WEB
-lk-web 一个小巧简单的web服务器，支持部分http特征。</br>
-简单的路由提供webservice。以及静态文件服务。
-
+# Perf_tool
+perf_tool是一个数据可视化的web应用性能工具。</br>
+有完整的信号，进程，日志管理。</br>
+事件驱动，固定多进程数量，无锁高性能。作为一个性能测试工具首先自己的性能的性能不能差。。</br>
+前端UI用echarts js实现初略的数据可视化，现在的版本比较粗糙。通过UI设置用例方便快捷，通过UI的图表可以实时，直观的看到数据走向。
+！[example](www/images/perf_example.PNG)
 # Install
-lk的功能模块需要OpenSSL库。解决依赖后。在文件目录运行：
-* configure
+依赖OpenSSL库。解决依赖后。在文件目录运行：
+* configure </br>
 * make && make install </br>
-即可完成安装。
-在 centos7 与 debian系raspbian上都成功编译。
 安装完成后，在/usr/local/lk目录可看到安装完成后的文件。
 运行/usr/local/lk/sbin目录下的elf文件即可使用，但是使用之前可能需要了解配置。
 > * /usr/local/lk/conf - 配置文件所在目录
@@ -32,8 +20,8 @@ lk的功能模块需要OpenSSL库。解决依赖后。在文件目录运行：
 作用是停止后台所有lk进程。</br>
 stop all process when works in the backend
 * -reload </br>
-作用是重新启动子进程
-reload all worker process 
+作用是重新启动子进程 </br>
+reload all worker process
 
 # configuraction
 ```json
@@ -58,20 +46,15 @@ reload all worker process
 		"home":"/usr/local/lk/www",
 		"index":"index.html"
 	},
-	"tunnel":{
-		"mode":"single"
-	},
 	"perf":{
 		"switch":false
 	},
 	"lktp":{
 		"mode":"server"
 	}
-
 }
 ```
 一个典型的配置文件如上，结构划分为多个部分：
-the configuration file can be divided into three part:
 * 全局块，一般设置一些共享的信息。
 > * daemon - 守护进程开关
 > * worker_process - 工作进程数量，为0时，管理进程即为工作进程。
@@ -88,9 +71,6 @@ the configuration file can be divided into three part:
 > * https listen - https监听的端口。
 > * home - HTML资源默认目录。
 > * index - HTML资源默认后缀。
-* tunnel 块，设置一些挂于tunnel的信息。
-> * mode - tunnel工作的模式：（single/server/client）
-> * serverip - 当mode为client的时候需要额外指定serverip。
 * perf 块，指定性能测试模块的信息。
 > * switch - 是否开启性能测试模块。如果开启。将只有最后一个启动的工作进程监听。其余工作监听不监听，只用来性能测试。
 * lktp 块，关于lktp通信的相关设置。
@@ -123,27 +103,3 @@ the configuration file can be divided into three part:
 |    ab       |   /     |  3000    |   10s     |181247   |161376     |170303    |   100    |
 > *  ab 的test2，test3出现了failed的情况。数量在400左右。
 > *  双核心数据和单核心的数据比起来，并不是与单核心的数据x2差不多，而是多了不少。这有点不合逻辑，我不知道为什么。也许是因为虚拟机的关系双核心的情况下占用了比预期更多宿主资源导致的。不过这里想说明的是，对比保持了环境的一致性。数据一定程度上总能体现不同对象在同样环境下的差异。
-## lk-web VS nginx1.14
-### 单核心
-> * lk-web 虚拟机 1核心，1gb内存
-> * nginx 1.14 虚拟机 1核心 1gb内存
-> * 测试机 lk-perf 虚拟机 1核心，1gb内存
-lk-perf 采用 30路并发，10s时间
-
-|     object  |    进程    | 时间      |  test1    |  test2  |   test3    |  cpu     |
-| ------------|------------|-----------|-----------|---------|-------------|----------|
-|    lk web   |   1        |   10s     |77373      |77037    |77475        |   94     |
-|    nginx    |   1        |   10s     |70718      |71082    |70215        |   90     |
-
-### 双核心
-> * lk-web 虚拟机 2核心，1gb内存
-> * nginx 1.14 虚拟机 2核心 1gb内存
-> * 测试机 lk-perf 虚拟机 2核心，1gb内存
-lk-perf 采用 30路并发，10s时间
-
-|     object |    进程     | 时间      |  test1    |  test2  |   test3     |  cpu     |
-|------------|-------------|-----------|-----------|---------|-------------|-----------|
-|    lk web  |   2         |   10s     |194854     |193158   |192333       |   92-92   |
-|    nginx   |   2         |   10s     |186471     |185138   |184547       |   95-95   |
-
-> * 这里虽然用nginx作为lk-web服务器性能的比较对象。但lk web的作用更多的是为其他模块如 lk perf提供服务。它的功能十分简单，流程也很精简，而nginx功能丰富。 与nginx的性能对比没有太多实际意义。但是能够一定程度上说明lk的性能。
