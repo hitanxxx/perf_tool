@@ -3,7 +3,7 @@ perf_tool是一个数据可视化的web应用性能工具。</br>
 有完整的信号，进程，日志管理。</br>
 事件驱动，固定多进程数量，无锁高性能。作为一个性能测试工具首先自己的性能的性能不能差。。</br>
 前端UI用echarts js实现初略的数据可视化，现在的版本比较粗糙。通过UI设置用例方便快捷，通过UI的图表可以实时，直观的看到数据走向。
-！[example](www/images/perf_example.PNG)
+![example](https://github.com/hitanxxx/perf_tool/blob/master/www/images/perf_example.png)
 # Install
 依赖OpenSSL库。解决依赖后。在文件目录运行：
 * configure </br>
@@ -48,9 +48,6 @@ reload all worker process
 	},
 	"perf":{
 		"switch":false
-	},
-	"lktp":{
-		"mode":"server"
 	}
 }
 ```
@@ -73,8 +70,7 @@ reload all worker process
 > * index - HTML资源默认后缀。
 * perf 块，指定性能测试模块的信息。
 > * switch - 是否开启性能测试模块。如果开启。将只有最后一个启动的工作进程监听。其余工作监听不监听，只用来性能测试。
-* lktp 块，关于lktp通信的相关设置。
-> * mode - lktp运行的模式，server模式开启5555端口，client模式需要指定serverip字段说明lktp server的ip地址。lktp使用tcp长连接。
+
 # Tips
 * 通过 /perform.html进入web应用性能测试的UI页面。
 * tunnel模块使用的端口为7324，7325。client/proxy使用7325。server使用7324。暂不能通过配置修改。
