@@ -1,0 +1,25 @@
+{
+	"daemon":true,
+	"worker_process":2,
+
+	"reuse_port":false,
+	"accept_mutex":false,
+
+	"log_error":true,
+	"log_debug":false,
+
+	"sslcrt":"/usr/local/lk/www/certificate/server.crt",
+	"sslkey":"/usr/local/lk/www/certificate/server.key",
+
+	"http":{
+		"access_log":true,
+		"keepalive":false,
+		"http_listen":[80],
+		"https_listen":[443],
+		"home":"/usr/local/lk/www",
+		"index":"index.html"
+	},
+	"perf":{
+		"switch":false
+	}
+}
